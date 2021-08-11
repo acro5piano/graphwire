@@ -65,7 +65,13 @@ export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubsc
         const { key } = info.path
         const typeString = info.returnType.toString().replace('!', '')
         const data = await pipeOperation(info)
-        const topicTypeId = data[key]['id']
+        const result = data[key]
+        if (Array.isArray(result)) {
+          throw new Error(
+            'Converting Array into GraphQL subscription field is not supported yet.',
+          )
+        }
+        const topicTypeId = result['id']
         const topic = `${typeString}:${topicTypeId}`
         process.nextTick(() => {
           pubsub.publish({
