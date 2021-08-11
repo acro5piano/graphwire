@@ -1,18 +1,22 @@
 import Fastify from 'fastify'
-import mercurius from 'mercurius'
+import redis from 'mqemitter-redis'
+import mercurius, { IResolvers } from 'mercurius'
+import { print } from 'graphql'
+import { Static, Type } from '@sinclair/typebox'
+import got from 'got'
 
 const gql = String.raw
 
-const app = Fastify({
-  logger: true,
+const emitter = redis({
+  port: 16379,
+  host: '127.0.0.1',
 })
+
+const app = Fastify({ logger: true })
 
 const schema = gql`
   type Query {
     ok: String
-  }
-  type Mutation {
-    publishUser: User!
   }
   type User {
     id: ID!
@@ -23,41 +27,56 @@ const schema = gql`
   }
 `
 
-const user = {
-  id: '1',
-  name: 'Kay',
-}
-
-const resolvers = {
-  Mutation: {
-    async publishUser(_, __, { pubsub }) {
-      // await pubsub.publish({ topic: `user:1`, payload: { user } })
-      await pubsub.publish({ topic: `user:1` })
-      return user
-    },
-  },
+const resolvers: IResolvers = {
   Subscription: {
     user: {
-      subscribe: (_, __, { pubsub }) => {
+      subscribe: async (...params) => {
+        const [, , { pubsub }] = params
         process.nextTick(() => {
-          pubsub.publish({ topic: `user:1` })
+          pubsub.publish({ topic: `user:1`, payload: {} })
         })
         return pubsub.subscribe(`user:1`)
       },
-      resolve() {
-        return {
-          id: '1',
-          name: 'Kay',
-        }
+      async resolve(...params) {
+        const [, , , info] = params
+        const query = print(info.operation).replace('subscription', 'query')
+        const { data } = await got
+          .post('http://127.0.0.1:1988/graphql', {
+            json: {
+              query,
+            },
+          })
+          .json()
+        return data.user
       },
     },
   },
 }
+
+const invalidateSchema = Type.Object({
+  topic: Type.String(),
+})
+
+app.post<{ Body: Static<typeof invalidateSchema> }>(
+  '/v1/publish',
+  { schema: { body: invalidateSchema } },
+  (request, reply) => {
+    const { topic } = request.body
+    emitter.emit({ topic }, (err) => {
+      if (err) {
+        reply.status(500).send(err)
+      }
+      reply.send({ status: 'ok' })
+    })
+  },
+)
 
 app.register(mercurius, {
   schema,
   resolvers,
-  subscription: true,
+  subscription: {
+    emitter,
+  },
 })
 
 if (require.main === module) {

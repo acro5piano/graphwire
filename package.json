@@ -18,5 +18,10 @@
     "nodemon": "^2.0.12",
     "remeda": "^0.0.30",
     "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.20.4",
+    "got": "^11.8.2",
+    "mqemitter-redis": "^4.1.0"
   }
 }
