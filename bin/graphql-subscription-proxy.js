@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-require('../dist/src/cli').run({
+require('../dist/cli').run({
   port: process.env.PORT,
 })

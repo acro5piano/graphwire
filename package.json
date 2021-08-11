@@ -1,7 +1,7 @@
 {
   "name": "graphql-subscription-proxy",
-  "version": "0.0.1",
-  "main": "index.js",
+  "version": "0.0.2",
+  "main": "dist/index.js",
   "repository": "git@github.com:acro5piano/graphql-subscription-proxy",
   "author": "gosho-kazuya <ketsume0211@gmail.com>",
   "license": "MIT",
@@ -9,8 +9,17 @@
     "graphql-subscription-proxy": "./bin/graphql-subscription-proxy.js"
   },
   "scripts": {
-    "r": "node -r esbuild-register"
+    "r": "node -r esbuild-register",
+    "build": "rimraf dist && tsc -p tsconfig.prod.json"
   },
+  "files": [
+    "dist/*.js",
+    "dist/*.map",
+    "dist/*.ts",
+    "package.json",
+    "LICENSE",
+    "README.md"
+  ],
   "dependencies": {
     "@graphql-tools/wrap": "^8.0.9",
     "@sinclair/typebox": "^0.20.4",
@@ -28,6 +37,7 @@
     "mercurius": "^8.1.1",
     "nodemon": "^2.0.12",
     "remeda": "^0.0.30",
+    "rimraf": "^3.0.2",
     "typescript": "^4.3.5"
   }
 }
