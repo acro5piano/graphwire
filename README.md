@@ -26,7 +26,7 @@ Features:
 
 # Try it yourself
 
-### Step 1. Run server
+### Step 1. Run the proxy server
 
 ```
 npx graphql-subscription-proxy --port 8000 --upstream-url https://rickandmortyapi.com/graphql
