@@ -1,12 +1,9 @@
 import Fastify from 'fastify'
-import redis from 'mqemitter-redis'
+import mq from 'mqemitter'
 
 import { MercuriusSubscriptionProxyPlugin } from '././MercuriusSubscriptionProxyPlugin'
 
-const emitter = redis({
-  port: 16379,
-  host: '127.0.0.1',
-})
+const emitter = mq({ concurrency: 5 })
 
 const app = Fastify({ logger: true, trustProxy: true })
 

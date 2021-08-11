@@ -4,7 +4,7 @@ import { introspectSchema, wrapSchema } from '@graphql-tools/wrap'
 import { print, printSchema } from 'graphql'
 import { Static, Type } from '@sinclair/typebox'
 import got from 'got'
-import { MQEmitterRedis } from 'mqemitter-redis'
+import { MQEmitter } from 'mqemitter'
 
 import { gql } from './util'
 
@@ -15,7 +15,7 @@ const fakeSchema = gql`
 `
 
 interface MercuriusSubscriptionProxyPluginOptions {
-  emitter: MQEmitterRedis
+  emitter: MQEmitter
   upstreamUrl: string
 }
 

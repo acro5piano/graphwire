@@ -12,6 +12,7 @@
     "@graphql-tools/wrap": "^8.0.9",
     "@sinclair/typebox": "^0.20.4",
     "got": "^11.8.2",
+    "mqemitter": "^4.4.1",
     "mqemitter-redis": "^4.1.0"
   },
   "devDependencies": {
