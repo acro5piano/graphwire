@@ -1,2 +1,3 @@
 # graphql-subscription-proxy
-Turn your query into real-time subscription.
+
+[experimental] Turn your query into real-time live query.
