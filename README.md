@@ -1,6 +1,6 @@
 # graphql-subscription-proxy
 
-[experimental] Turn your query into real-time live query.
+[experimental] A GraphQL proxy server which turns your query into real-time live query!
 
 # Motivation
 
