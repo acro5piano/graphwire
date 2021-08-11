@@ -5,13 +5,20 @@ import { MercuriusSubscriptionProxyPlugin } from '././MercuriusSubscriptionProxy
 
 export const emitter = mq({ concurrency: 5 })
 
-export const app = Fastify({ logger: true, trustProxy: true })
+const app = Fastify({ logger: true, trustProxy: true })
 
-app.register(MercuriusSubscriptionProxyPlugin, {
-  emitter,
-  upstreamUrl: 'http://127.0.0.1:1988/graphql',
-})
+interface SubscriptionProxyConfig {
+  upstreamUrl: string
+}
+
+export function createServer({ upstreamUrl }: SubscriptionProxyConfig) {
+  app.register(MercuriusSubscriptionProxyPlugin, {
+    emitter,
+    upstreamUrl,
+  })
+  return app
+}
 
 if (require.main === module) {
-  app.listen(1989)
+  createServer({ upstreamUrl: 'http://127.0.0.1:1988/graphql' }).listen(1989)
 }

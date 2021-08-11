@@ -1,6 +1,6 @@
 {
   "name": "graphql-subscription-proxy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/index.js",
   "repository": "git@github.com:acro5piano/graphql-subscription-proxy",
   "author": "gosho-kazuya <ketsume0211@gmail.com>",
@@ -23,6 +23,7 @@
   "dependencies": {
     "@graphql-tools/wrap": "^8.0.9",
     "@sinclair/typebox": "^0.20.4",
+    "commander": "^8.1.0",
     "fastify": "^3.20.1",
     "got": "^11.8.2",
     "graphql": "^15.5.1",
