@@ -1,7 +1,9 @@
 import { FastifyPluginAsync } from 'fastify'
+import { GraphQLResolveInfo } from 'graphql'
 import mercurius, { IResolvers } from 'mercurius'
 import { introspectSchema, wrapSchema } from '@graphql-tools/wrap'
 import { print, printSchema } from 'graphql'
+import { retryDecorator } from 'ts-retry-promise'
 import { Static, Type } from '@sinclair/typebox'
 import got from 'got'
 import { MQEmitter } from 'mqemitter'
@@ -21,7 +23,7 @@ interface MercuriusSubscriptionProxyPluginOptions {
 
 export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubscriptionProxyPluginOptions> =
   async (app, options) => {
-    const executor = async ({ document, variables }: any) => {
+    const _executor = async ({ document, variables }: any) => {
       const query = print(document)
       const fetchResult = await got
         .post(options.upstreamUrl, {
@@ -30,6 +32,7 @@ export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubsc
         .json()
       return fetchResult as any
     }
+    const executor = retryDecorator(_executor, { retries: 3 })
 
     const rawSchema = wrapSchema({
       schema: await introspectSchema(executor),
@@ -43,33 +46,61 @@ export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubsc
 
     const schema = `${remoteSchemaWithSubscription}\n\n${fakeSchema}`
 
+    async function _pipeOperation(info: GraphQLResolveInfo) {
+      const query = print(info.operation).replace('subscription', 'query')
+      const { data } = await got
+        .post(options.upstreamUrl, {
+          json: {
+            query,
+          },
+        })
+        .json()
+      return data
+    }
+    const pipeOperation = retryDecorator(_pipeOperation, { retries: 3 })
+
+    const subscriptionFieldResolver: IResolvers[string] = {
+      subscribe: async (...params) => {
+        const [, , { pubsub }, info] = params
+        const { key } = info.path
+        const typeString = info.returnType.toString().replace('!', '')
+        const data = await pipeOperation(info)
+        const topicTypeId = data[key]['id']
+        const topic = `${typeString}:${topicTypeId}`
+        process.nextTick(() => {
+          pubsub.publish({
+            topic,
+            payload: {},
+          })
+        })
+        return pubsub.subscribe(topic)
+      },
+      async resolve(...params) {
+        const [, , , info] = params
+        const { key } = info.path
+        const data = await pipeOperation(info)
+        return data[key]
+      },
+    }
+
+    const remoteQueryType = rawSchema.getQueryType()
+    if (!remoteQueryType) {
+      throw new Error('Remote schema does not have Query type.')
+    }
+
     const resolvers: IResolvers = {
       Query: {
         ok: () => 'ok',
       },
-      Subscription: {
-        user: {
-          subscribe: async (...params) => {
-            const [, , { pubsub }] = params
-            process.nextTick(() => {
-              pubsub.publish({ topic: `user:1`, payload: {} })
-            })
-            return pubsub.subscribe(`user:1`)
-          },
-          async resolve(...params) {
-            const [, , , info] = params
-            const query = print(info.operation).replace('subscription', 'query')
-            const { data } = await got
-              .post(options.upstreamUrl, {
-                json: {
-                  query,
-                },
-              })
-              .json()
-            return data.user
-          },
+      Subscription: Object.keys(remoteQueryType.getFields()).reduce(
+        (car, fieldName) => {
+          return {
+            ...car,
+            [fieldName]: subscriptionFieldResolver,
+          }
         },
-      },
+        {},
+      ),
     }
 
     const invalidateSchema = Type.Object({
