@@ -2,6 +2,28 @@
 
 [experimental] Turn your query into real-time live query.
 
+# Motivation
+
+GraphQL Subscription is hard to build. It takes lots of work.
+
+- WebSocket connection over a load balancer
+- Performance optimization when publishing
+- Testing
+- Logic duplication among queries and subscriptions
+- Initial publish for live query
+
+To solve these problems, `graphql-subscription-proxy` provides a new way: Proxy GraphQL Queries and make it real-time subscriptions!
+
+# How it works
+
+![Untitled Diagram (2)](https://user-images.githubusercontent.com/10719495/129064036-c70b9afc-be57-4b21-b452-0c40bd7ece57.png)
+
+Features:
+
+- No need to write your subscription logic
+- No need to prepare Redis instance (for small use-case)
+- Use completely the same logic as your Queries
+
 # Try it yourself
 
 ### Step 1. Run server
@@ -57,3 +79,10 @@ curl -XPOST http://0.0.0.0:8000/v1/publish \
 And you'll see a new subscription is published!
 
 ![image](https://user-images.githubusercontent.com/10719495/129058575-751a0767-2270-45d9-91be-e198e4d78d02.png)
+
+
+# TODO
+
+- [ ] More testing
+- [ ] List return type support
+- [ ] Create SaaS version to provider better experience and serverless merit
