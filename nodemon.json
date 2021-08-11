@@ -1,0 +1,6 @@
+{
+  "ext": "ts,tsx",
+  "ignore": "**/__generated__/**",
+  "exec": "node -r esbuild-register"
+}
+
