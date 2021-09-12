@@ -1,7 +1,7 @@
 import { createServer } from './SubscriptionProxy'
 import { program } from 'commander'
 
-program.version('0.0.4')
+program.version('0.0.5')
 
 program
   .requiredOption(
