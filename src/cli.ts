@@ -9,7 +9,7 @@ program
     '-u, --upstream-url <url>',
     'remote schema to get query e.g.) https://api.github.com/graphql',
   )
-  .option('-p, --port <port>', 'port to listen', '1990')
+  .option('-p, --port <port>', 'port to listen', '1989')
   .option('--disable-altair', 'Disable altair GraphQL IDE')
 
 interface CliArgs {
@@ -21,17 +21,15 @@ interface CliArgs {
 export function run() {
   program.parse(process.argv)
 
-  const {
-    port = '1989',
-    upstreamUrl,
-    disableAltair = false,
-  } = program.opts() as CliArgs
+  const { port, upstreamUrl, disableAltair = false } = program.opts() as CliArgs
+  const portNum = Number(port)
 
   const app = createServer({
     upstreamUrl,
     disableAltair,
+    port: portNum,
   })
-  app.listen(Number(port), `0.0.0.0`)
+  app.listen(portNum, `0.0.0.0`)
 }
 
 if (require.main === module) {

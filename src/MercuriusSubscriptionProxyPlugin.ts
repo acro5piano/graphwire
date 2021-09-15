@@ -21,6 +21,7 @@ export interface MercuriusSubscriptionProxyPluginOptions {
   emitter: MQEmitter
   upstreamUrl: string
   disableAltair: boolean
+  port: number
 }
 
 export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubscriptionProxyPluginOptions> =
@@ -145,6 +146,7 @@ export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubsc
         path: '/altair',
         baseURL: '/altair/',
         endpointURL: '/graphql',
+        subscriptionsEndpoint: `ws://0.0.0.0:${options.port}/graphql`,
       })
     }
   }

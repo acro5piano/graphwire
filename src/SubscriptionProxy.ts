@@ -13,11 +13,13 @@ const app = Fastify({ logger: true, trustProxy: true })
 export function createServer({
   upstreamUrl,
   disableAltair,
+  port,
 }: Omit<MercuriusSubscriptionProxyPluginOptions, 'emitter'>) {
   app.register(MercuriusSubscriptionProxyPlugin, {
     emitter,
     upstreamUrl,
     disableAltair,
+    port,
   })
   return app
 }
