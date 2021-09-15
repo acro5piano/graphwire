@@ -1,6 +1,9 @@
+![test](https://github.com/acro5piano/graphql-subscription-proxy/workflows/test/badge.svg)
+[![npm version](https://badge.fury.io/js/graphql-subscription-proxy.svg)](https://badge.fury.io/js/graphql-subscription-proxy)
+
 # graphql-subscription-proxy
 
-[experimental] A GraphQL proxy server which turns your query into real-time live query!
+A GraphQL proxy server which turns your query into real-time live query!
 
 # Motivation
 
@@ -53,18 +56,17 @@ subscription {
 <table>
   <tr>
     <td>
-      <img src=https://user-images.githubusercontent.com/10719495/129057678-4be94a73-33cc-4e74-9f34-c8a4b8a6f6e2.png height=250> 
+      <img src=https://user-images.githubusercontent.com/10719495/129057678-4be94a73-33cc-4e74-9f34-c8a4b8a6f6e2.png height=250>
     </td>
     <td>
-      <img src=https://user-images.githubusercontent.com/10719495/129057775-d9ca7082-68ec-4a28-943e-a52bbc2dd0c5.png height=250> 
+      <img src=https://user-images.githubusercontent.com/10719495/129057775-d9ca7082-68ec-4a28-943e-a52bbc2dd0c5.png height=250>
     </td>
   </tr>
-</table>  
- 
+</table>
 
 Soon, you will get see the subscription result like this. Note that the schema is not configured to operate subscriptions, but it works thanks to our proxy!
 
-<img src=https://user-images.githubusercontent.com/10719495/129057989-d1f3c9c4-a2bf-492e-bd19-64a6b8ec168a.png height=300> 
+<img src=https://user-images.githubusercontent.com/10719495/129057989-d1f3c9c4-a2bf-492e-bd19-64a6b8ec168a.png height=300>
 
 ### Step 3. Publish (invalidate)
 
@@ -79,7 +81,6 @@ curl -XPOST http://0.0.0.0:8000/v1/publish \
 And you'll see a new subscription is published!
 
 ![image](https://user-images.githubusercontent.com/10719495/129058575-751a0767-2270-45d9-91be-e198e4d78d02.png)
-
 
 # TODO
 
