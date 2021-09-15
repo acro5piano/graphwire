@@ -1,12 +1,13 @@
-import { FastifyPluginAsync } from 'fastify'
-import { GraphQLResolveInfo } from 'graphql'
-import mercurius, { IResolvers } from 'mercurius'
 import { introspectSchema, wrapSchema } from '@graphql-tools/wrap'
-import { print, printSchema } from 'graphql'
-import { retryDecorator } from 'ts-retry-promise'
 import { Static, Type } from '@sinclair/typebox'
+import AltairFastify from 'altair-fastify-plugin'
+import { FastifyPluginAsync } from 'fastify'
 import got from 'got'
+import { GraphQLResolveInfo } from 'graphql'
+import { print, printSchema } from 'graphql'
+import mercurius, { IResolvers } from 'mercurius'
 import { MQEmitter } from 'mqemitter'
+import { retryDecorator } from 'ts-retry-promise'
 
 import { gql } from './util'
 
@@ -16,9 +17,10 @@ const fakeSchema = gql`
   }
 `
 
-interface MercuriusSubscriptionProxyPluginOptions {
+export interface MercuriusSubscriptionProxyPluginOptions {
   emitter: MQEmitter
   upstreamUrl: string
+  disableAltair: boolean
 }
 
 export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubscriptionProxyPluginOptions> =
@@ -134,4 +136,15 @@ export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubsc
         emitter: options.emitter,
       },
     })
+
+    if (!options.disableAltair) {
+      app.register(AltairFastify, {
+        /**
+         * All these are the defaults.
+         */
+        path: '/altair',
+        baseURL: '/altair/',
+        endpointURL: '/graphql',
+      })
+    }
   }
