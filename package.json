@@ -14,9 +14,10 @@
     "build": "rimraf dist && tsc -p tsconfig.prod.json"
   },
   "files": [
-    "dist/*.js",
-    "dist/*.map",
-    "dist/*.ts",
+    "dist/**/*.js",
+    "dist/**/*.json",
+    "dist/**/*.map",
+    "dist/**/*.ts",
     "package.json",
     "LICENSE",
     "README.md"
