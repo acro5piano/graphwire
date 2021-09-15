@@ -28,11 +28,13 @@ export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubsc
   async (app, options) => {
     const _executor = async ({ document, variables }: any) => {
       const query = print(document)
+      app.log.info('Fetching the original schema...')
       const fetchResult = await got
         .post(options.upstreamUrl, {
           json: { query, variables },
         })
         .json()
+      app.log.info('Done fetching the original schema.')
       return fetchResult as any
     }
     const executor = retryDecorator(_executor, { retries: 3 })
@@ -64,8 +66,9 @@ export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubsc
 
     const subscriptionFieldResolver: IResolvers[string] = {
       subscribe: async (...params) => {
-        const [, , { pubsub }, info] = params
+        const [, , { app, pubsub }, info] = params
         const { key } = info.path
+        app.log.info('New subscription: %s', info.operation.name?.value || '')
         const typeString = info.returnType.toString().replace('!', '')
         const data = await pipeOperation(info)
         const result = data[key]
@@ -123,8 +126,10 @@ export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubsc
         const { topic } = request.body
         options.emitter.emit({ topic }, (err) => {
           if (err) {
+            request.log.error('Failed to published topic: %s', topic)
             reply.status(500).send(err)
           }
+          request.log.info('Published topic: %s', topic)
           reply.send({ status: 'ok' })
         })
       },
