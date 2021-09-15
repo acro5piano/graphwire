@@ -1,6 +1,8 @@
 ![test](https://github.com/acro5piano/graphql-subscription-proxy/workflows/test/badge.svg)
 [![npm version](https://badge.fury.io/js/graphql-subscription-proxy.svg)](https://badge.fury.io/js/graphql-subscription-proxy)
 
+![image](assets/logo.svg)
+
 # graphql-subscription-proxy
 
 A GraphQL proxy server which turns your query into real-time live query!
