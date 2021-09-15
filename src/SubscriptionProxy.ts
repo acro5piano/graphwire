@@ -1,4 +1,5 @@
 import Fastify from 'fastify'
+import fastifyFormBody from 'fastify-formbody'
 import mq from 'mqemitter'
 
 import {
@@ -15,6 +16,7 @@ export function createServer({
   disableAltair,
   port,
 }: Omit<MercuriusSubscriptionProxyPluginOptions, 'emitter'>) {
+  app.register(fastifyFormBody)
   app.register(MercuriusSubscriptionProxyPlugin, {
     emitter,
     upstreamUrl,
