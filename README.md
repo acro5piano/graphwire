@@ -1,7 +1,9 @@
 ![test](https://github.com/acro5piano/graphql-subscription-proxy/workflows/test/badge.svg)
 [![npm version](https://badge.fury.io/js/graphql-subscription-proxy.svg)](https://badge.fury.io/js/graphql-subscription-proxy)
 
-![image](assets/logo.svg)
+<p align="center">
+    <img width="200" height="200" src="https://raw.githubusercontent.com/acro5piano/graphql-subscription-proxy/master/assets/logo.svg">
+</p>
 
 # graphql-subscription-proxy
 
