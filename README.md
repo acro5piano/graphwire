@@ -11,7 +11,7 @@ A GraphQL proxy server which turns your query into real-time live query!
 
 # Motivation
 
-GraphQL Subscription is hard to build. It takes lots of work.
+GraphQL Subscription is hard to build. It is troublesome and requires lots of work.
 
 - WebSocket connection over a load balancer
 - Performance optimization when publishing
@@ -23,9 +23,9 @@ To solve these problems, `graphql-subscription-proxy` provides a new way: **Prox
 
 # How it works
 
-![Untitled Diagram (2)](https://user-images.githubusercontent.com/10719495/129064036-c70b9afc-be57-4b21-b452-0c40bd7ece57.png)
+![image](https://user-images.githubusercontent.com/10719495/129064036-c70b9afc-be57-4b21-b452-0c40bd7ece57.png)
 
-Features:
+Benefits:
 
 - No need to write your subscription logic
 - No need to prepare Redis instance (for small use-case)
@@ -38,6 +38,8 @@ Features:
 ```
 npx graphql-subscription-proxy --upstream-url https://api.graphql.jobs
 ```
+
+Note that https://api.graphql.jobs does not provide Subscription. `graphql-subscription-proxy` forward subscriptions between users and the upstream server.
 
 ### Step 2. Subscribe
 
@@ -56,7 +58,7 @@ subscription TestSubscription {
 
 Then you will see the initial subscription data like this.
 
-![image](https://user-images.githubusercontent.com/10719495/133448826-fb91f2a9-3eec-479f-b77f-86ce45b0c8a3.png)
+![image](https://user-images.githubusercontent.com/10719495/133450990-5844fcb7-56aa-4a1b-b0e7-a3f14f14361a.png)
 
 ### Step 3. Publish (invalidate)
 
