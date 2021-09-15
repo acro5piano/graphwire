@@ -3,10 +3,9 @@ import chalk from 'chalk'
 import { program } from 'commander'
 import dedent from 'dedent'
 
-import pkg from '../package.json'
 import { createServer } from './SubscriptionProxy'
 
-const VERSION = pkg.version
+const VERSION = require('../package.json').version
 
 program.version(VERSION)
 

@@ -19,7 +19,7 @@ GraphQL Subscription is hard to build. It takes lots of work.
 - Logic duplication among queries and subscriptions
 - Initial publish for live query
 
-To solve these problems, `graphql-subscription-proxy` provides a new way: Proxy GraphQL Queries and make it real-time subscriptions!
+To solve these problems, `graphql-subscription-proxy` provides a new way: **Proxy GraphQL Queries and make it real-time subscriptions!**
 
 # How it works
 
@@ -36,58 +36,34 @@ Features:
 ### Step 1. Run the proxy server
 
 ```
-npx graphql-subscription-proxy --port 8000 --upstream-url https://rickandmortyapi.com/graphql
+npx graphql-subscription-proxy --upstream-url https://api.graphql.jobs
 ```
-
-> Thank you for https://rickandmortyapi.com for providing the quick testing environment!
 
 ### Step 2. Subscribe
 
-Any clients which support `subscriptions-transports-ws` is okay, but I recommend to use [Altair](https://altair.sirmuel.design) to test it.
-
-For testing, please run the following subscription:
+Open http://0.0.0.0:1989/altair and run the following query:
 
 ```graphql
-subscription {
-  episode(id: 1) {
+subscription TestSubscription {
+  city(input: { slug: "berlin" }) {
     id
     name
+    slug
     __typename
   }
 }
 ```
 
-<table>
-  <tr>
-    <td>
-      <img src=https://user-images.githubusercontent.com/10719495/129057678-4be94a73-33cc-4e74-9f34-c8a4b8a6f6e2.png height=250>
-    </td>
-    <td>
-      <img src=https://user-images.githubusercontent.com/10719495/129057775-d9ca7082-68ec-4a28-943e-a52bbc2dd0c5.png height=250>
-    </td>
-  </tr>
-</table>
+Then you will see the initial subscription data like this.
 
-Soon, you will get see the subscription result like this. Note that the schema is not configured to operate subscriptions, but it works thanks to our proxy!
-
-<img src=https://user-images.githubusercontent.com/10719495/129057989-d1f3c9c4-a2bf-492e-bd19-64a6b8ec168a.png height=300>
+![image](https://user-images.githubusercontent.com/10719495/133448826-fb91f2a9-3eec-479f-b77f-86ce45b0c8a3.png)
 
 ### Step 3. Publish (invalidate)
 
-Keep the subscription up and open your terminal, then run the following command:
+While keeping the subscription up, open your terminal and run the following command:
 
 ```
-curl -XPOST http://0.0.0.0:8000/v1/publish \
-    -H 'content-type: application/json' \
-    -d '{"topic": "Episode:1"}'
+curl -XPOST http://0.0.0.0:1989/v1/publish -d topic=City:cjuv51m3s00fc0735xosrvscp
 ```
 
 And you'll see a new subscription is published!
-
-![image](https://user-images.githubusercontent.com/10719495/129058575-751a0767-2270-45d9-91be-e198e4d78d02.png)
-
-# TODO
-
-- [ ] More testing
-- [ ] List return type support
-- [ ] Create SaaS version to provider better experience and serverless merit
