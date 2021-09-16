@@ -5,33 +5,25 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 
+const DESCRIPTION = "GraphQL subscription proxy - A GraphQL proxy server which turns your query into real-time live query." // prettier-ignore
+const COPY = "GraphQL subscription proxy - Turn query into live query" // prettier-ignore
+
 const Home: NextPage = () => {
   const scrolled = useScroll()
 
   return (
     <div className="space-y-20 sm:space-y-32 md:space-y-40 lg:space-y-44 overflow-hidden">
       <Head>
-        <meta
-          key="twitter:title"
-          name="twitter:title"
-          content="MonCargo - Track your cargo online"
-        />
-        <meta
-          key="og:title"
-          property="og:title"
-          content="MonCargo - Track your cargo online"
-        />
-        <meta
-          name="descrpition"
-          content="MonCargo monitors container shipment status and sends email notifications if a schedule changes."
-        />
+        <meta key="twitter:title" name="twitter:title" content={DESCRIPTION} />
+        <meta key="og:title" property="og:title" content={COPY} />
+        <meta name="descrpition" content={DESCRIPTION} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           key="og:image"
           property="og:image"
           content="https://user-images.githubusercontent.com/10719495/132133995-134cd804-bda4-4ae2-8135-04d1e8425606.png"
         />
-        <title>MonCargo - Track your cargo online</title>
+        <title>{COPY}</title>
       </Head>
       <header
         className={clsx(
