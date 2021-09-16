@@ -1,6 +1,6 @@
 {
   "name": "graphql-subscription-proxy",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "main": "dist/index.js",
   "repository": "git@github.com:acro5piano/graphql-subscription-proxy",
   "author": "gosho-kazuya <ketsume0211@gmail.com>",
@@ -38,6 +38,7 @@
     "mercurius": "^8.1.1",
     "mqemitter": "^4.4.1",
     "pino": "^6.13.2",
+    "pino-pretty": "^7.0.0",
     "ts-retry-promise": "^0.6.0"
   },
   "devDependencies": {
@@ -49,7 +50,6 @@
     "mercurius-integration-testing": "^3.2.0",
     "mqemitter-redis": "^4.1.0",
     "nodemon": "^2.0.12",
-    "pino-pretty": "^7.0.0",
     "remeda": "^0.0.30",
     "rimraf": "^3.0.2",
     "typescript": "^4.3.5"
