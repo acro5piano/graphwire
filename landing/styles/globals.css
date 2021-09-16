@@ -1,0 +1,46 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* /* Hide scrollbar */
+*/
+/* body::-webkit-scrollbar { */
+/*   display: none; */
+/* } */
+/* body { */
+/*   -ms-overflow-style: none; /* IE and Edge */ */
+/*   scrollbar-width: none; /* Firefox */ */
+/* } */
+
+.min-h-screen-1\/2 {
+  min-height: 50vh;
+}
+
+.visible-on-hover--parent:hover .visible-on-hover--children {
+  display: block;
+}
+.visible-on-hover--children {
+  display: none;
+}
