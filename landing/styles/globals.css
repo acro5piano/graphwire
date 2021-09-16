@@ -24,15 +24,14 @@ a {
   scrollbar-width: none; /* Firefox */
 }
 
-/* /* Hide scrollbar */
-*/
-/* body::-webkit-scrollbar { */
-/*   display: none; */
-/* } */
-/* body { */
-/*   -ms-overflow-style: none; /* IE and Edge */ */
-/*   scrollbar-width: none; /* Firefox */ */
-/* } */
+/* Hide scrollbar */
+body::-webkit-scrollbar {
+  display: none;
+}
+body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 
 .min-h-screen-1\/2 {
   min-height: 50vh;
