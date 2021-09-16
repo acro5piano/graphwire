@@ -1,0 +1,57 @@
+{
+  "name": "graphql-subscription-proxy",
+  "version": "0.0.9",
+  "main": "dist/index.js",
+  "repository": "git@github.com:acro5piano/graphql-subscription-proxy",
+  "author": "gosho-kazuya <ketsume0211@gmail.com>",
+  "license": "MIT",
+  "bin": {
+    "graphql-subscription-proxy": "./bin/graphql-subscription-proxy.js"
+  },
+  "scripts": {
+    "r": "node -r esbuild-register",
+    "dev": "yarn build && bin/graphql-subscription-proxy.js --port 8000 --upstream-url https://api.graphql.jobs",
+    "build": "rimraf dist && tsc -p tsconfig.prod.json",
+    "test": "ava --serial"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.json",
+    "dist/**/*.map",
+    "dist/**/*.ts",
+    "package.json",
+    "LICENSE",
+    "README.md"
+  ],
+  "dependencies": {
+    "@graphql-tools/wrap": "^8.0.9",
+    "@sinclair/typebox": "^0.20.4",
+    "altair-fastify-plugin": "^4.0.9",
+    "boxen": "^5.1.1",
+    "chalk": "^4.1.2",
+    "commander": "^8.1.0",
+    "dedent": "^0.7.0",
+    "fastify": "^3.20.1",
+    "fastify-formbody": "^5.1.0",
+    "got": "^11.8.2",
+    "graphql": "^15.5.1",
+    "mercurius": "^8.1.1",
+    "mqemitter": "^4.4.1",
+    "pino": "^6.13.2",
+    "ts-retry-promise": "^0.6.0"
+  },
+  "devDependencies": {
+    "@types/dedent": "^0.7.0",
+    "@types/node": "^16.4.13",
+    "@types/pino": "^6.3.11",
+    "ava": "^3.15.0",
+    "esbuild-register": "^2.6.0",
+    "mercurius-integration-testing": "^3.2.0",
+    "mqemitter-redis": "^4.1.0",
+    "nodemon": "^2.0.12",
+    "pino-pretty": "^7.0.0",
+    "remeda": "^0.0.30",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.3.5"
+  }
+}

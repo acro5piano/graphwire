@@ -20,3 +20,4 @@ jobs:
           yarn install
           yarn tsc
           yarn test
+        working-directory: app
