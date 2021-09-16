@@ -1,6 +1,6 @@
 import { useScroll } from 'ahooks'
 import clsx from 'clsx'
-import { Button } from 'components/Button'
+import dedent from 'dedent'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -49,16 +49,14 @@ const Home: NextPage = () => {
             passHref
             href="https://github.com/acro5piano/graphql-subscription-proxy"
           >
-            <button className="text-base leading-6 font-medium text-gray-900 transition-all py-2 hover:bg-gray-100 p-3 rounded">
-              Get Started
-            </button>
+            <a className="text-base leading-6 font-medium text-gray-900 transition-all py-2 hover:bg-gray-100 p-3 rounded">
+              GitHub
+            </a>
           </Link>
         </div>
       </header>
 
-      <div className="h-1" />
-
-      <section className="max-w-screen-lg m-auto min-h-screen-1/2">
+      <section className="max-w-screen-lg m-auto min-h-screen-2/3 pt-8 md:pt-0">
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-gray-900 mt-4 mb-8 sm:mt-14 sm:mb-10 text-center">
           Turn query into live query
         </h1>
@@ -69,17 +67,43 @@ const Home: NextPage = () => {
             real-time live query.
           </span>
         </h2>
+        <div className="max-w-screen-md m-auto hidden md:block ">
+          <div className="bg-gray-200 border-3 border-gray-200  h-6 rounded-tr rounded-tl flex items-center px-3">
+            <div className="h-3 w-3 bg-red-500 rounded-full" />
+            <div className="h-3 w-3 mx-1 bg-yellow-400 rounded-full" />
+            <div className="h-3 w-3 bg-green-500 rounded-full" />
+          </div>
+          <div className="text-sm bg-gray-800 text-white px-6 py-3 rounded-br rounded-bl overflow-x-scroll hide-scrollbar font-mono whitespace-pre">
+            <p className="text-white font-bold shell-cmd">
+              {dedent`
+            npx graphql-subscription-proxy --upstream-url https://api.graphql.jobs
+              `}
+            </p>
+            <p className="mt-3 text-gray-400">{dedent`
+            INFO: Fetching the original schema...
+            INFO: Done fetching the original schema.
+            INFO: Server listening at http://0.0.0.0:1989
+            `}</p>
+            <p className="mt-3 text-white">{dedent`
+
+            ┌─────────────────────────────────────────────────────────────────────────────────┐
+            │  GraphQL Subscription Proxy v0.0.10                                             │
+            │                                                                                 │
+            │  - Subscribe: http://0.0.0.0:1989/altair                                        │
+            │  - Publish:   curl -XPOST http://0.0.0.0:1989/v1/publish -d topic=<type>:<id>   │
+            └─────────────────────────────────────────────────────────────────────────────────┘
+
+          `}</p>
+          </div>
+        </div>
         <div className="justify-center md:flex space-y-4 sm:space-y-0 sm:space-x-4 text-center mt-12">
           <Link
             passHref
             href="https://github.com/acro5piano/graphql-subscription-proxy"
           >
-            <Button
-              variant="primary"
-              className="w-full sm:w-auto flex-none text-lg leading-6 font-semibold py-3 px-6 rounded-xl"
-            >
+            <a className="bg-indigo-600 text-white w-full sm:w-auto flex-none text-lg leading-6 font-semibold py-3 px-6 rounded-xl">
               Get started
-            </Button>
+            </a>
           </Link>
         </div>
       </section>
