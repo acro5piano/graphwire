@@ -33,8 +33,8 @@ body {
   scrollbar-width: none; /* Firefox */
 }
 
-.min-h-screen-1\/2 {
-  min-height: 50vh;
+.min-h-screen-2\/3 {
+  min-height: 66vh;
 }
 
 .visible-on-hover--parent:hover .visible-on-hover--children {
@@ -42,4 +42,10 @@ body {
 }
 .visible-on-hover--children {
   display: none;
+}
+
+.shell-cmd::before {
+  content: '$';
+  width: 30px;
+  margin-right: 6px;
 }
