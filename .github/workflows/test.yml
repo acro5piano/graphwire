@@ -19,3 +19,4 @@ jobs:
       - run: |
           yarn install
           yarn tsc
+          yarn test

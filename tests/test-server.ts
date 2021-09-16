@@ -14,6 +14,7 @@ const schema = gql`
   }
   type Query {
     user: User!
+    users: [User!]!
   }
 `
 
@@ -24,6 +25,18 @@ const resolvers = {
         id: '1',
         name: 'Kay',
       }
+    },
+    users() {
+      return [
+        {
+          id: '1',
+          name: 'Kay',
+        },
+        {
+          id: '2',
+          name: 'Jane',
+        },
+      ]
     },
   },
 }

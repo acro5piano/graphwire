@@ -23,13 +23,13 @@ interface CliArgs {
   disableAltair?: boolean
 }
 
-export function run() {
+export async function run() {
   program.parse(process.argv)
 
   const { port, upstreamUrl, disableAltair = false } = program.opts() as CliArgs
   const portNum = Number(port)
 
-  const app = createServer({
+  const app = await createServer({
     upstreamUrl,
     disableAltair,
     port: portNum,
