@@ -23,19 +23,19 @@ interface CliArgs {
   disableAltair?: boolean
 }
 
-export function run() {
+export async function run() {
   program.parse(process.argv)
 
   const { port, upstreamUrl, disableAltair = false } = program.opts() as CliArgs
   const portNum = Number(port)
 
-  const app = createServer({
+  const app = await createServer({
     upstreamUrl,
     disableAltair,
     port: portNum,
   })
-  const baseUrl = `http://0.0.0.0:${port}`
   app.listen(portNum, `0.0.0.0`).then(() => {
+    const baseUrl = `http://0.0.0.0:${port}`
     // prettier-ignore
     const welcomeMessage = dedent`
       ${chalk.green(`GraphQL Subscription Proxy`)} ${chalk.gray(`v${VERSION}`)}

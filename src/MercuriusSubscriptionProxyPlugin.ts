@@ -62,36 +62,35 @@ export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubsc
         .json()
       return data
     }
-    const pipeOperation = retryDecorator(_pipeOperation, { retries: 3 })
+    const pipeOperation = retryDecorator(_pipeOperation, {
+      retries: 3,
+      logger: (msg) =>
+        app.log.error('Fetching result from remote schema error: %s', msg),
+    })
 
     const subscriptionFieldResolver: IResolvers[string] = {
       subscribe: async (...params) => {
         const [, , { app, pubsub }, info] = params
-        const { key } = info.path
         app.log.info('New subscription: %s', info.operation.name?.value || '')
-        const typeString = info.returnType.toString().replace('!', '')
+        const typeString = info.returnType.toString().replace(/[\!\[\]]/g, '')
         const data = await pipeOperation(info)
-        const result = data[key]
-        if (Array.isArray(result)) {
-          throw new Error(
-            'Converting Array into GraphQL subscription field is not supported yet.',
-          )
-        }
-        const topicTypeId = result['id']
-        const topic = `${typeString}:${topicTypeId}`
+        const topic = extractTopic(typeString, data[info.path.key])
         process.nextTick(() => {
-          pubsub.publish({
-            topic,
-            payload: {},
-          })
+          if (Array.isArray(topic)) {
+            if (topic[0]) {
+              pubsub.publish({ topic: topic[0], payload: {} })
+            }
+          } else {
+            pubsub.publish({ topic, payload: {} })
+          }
         })
+        app.log.info(`Topic created: %s`, topic)
         return pubsub.subscribe(topic)
       },
       async resolve(...params) {
         const [, , , info] = params
-        const { key } = info.path
         const data = await pipeOperation(info)
-        return data[key]
+        return data[info.path.key]
       },
     }
 
@@ -102,7 +101,9 @@ export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubsc
 
     const resolvers: IResolvers = {
       Query: {
-        ok: () => 'ok',
+        ok() {
+          return 'ok'
+        },
       },
       Subscription: Object.keys(remoteQueryType.getFields()).reduce(
         (car, fieldName) => {
@@ -155,3 +156,16 @@ export const MercuriusSubscriptionProxyPlugin: FastifyPluginAsync<MercuriusSubsc
       })
     }
   }
+
+function extractTopic(
+  typeString: string,
+  obj:
+    | Record<string, number | boolean | string>
+    | Array<Record<string, number | boolean | string>>,
+) {
+  if (Array.isArray(obj)) {
+    return obj.map((obj) => `${typeString}:${obj['id']}`)
+  }
+  const topicTypeId = obj['id']
+  return `${typeString}:${topicTypeId}`
+}
