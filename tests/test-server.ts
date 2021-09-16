@@ -3,7 +3,7 @@ import mercurius from 'mercurius'
 
 const gql = String.raw
 
-const app = Fastify({
+export const server = Fastify({
   logger: true,
 })
 
@@ -28,12 +28,12 @@ const resolvers = {
   },
 }
 
-app.register(mercurius, {
+server.register(mercurius, {
   schema,
   resolvers,
   graphiql: true,
 })
 
 if (require.main === module) {
-  app.listen(1988)
+  server.listen(1988)
 }

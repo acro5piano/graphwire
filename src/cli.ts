@@ -34,8 +34,8 @@ export function run() {
     disableAltair,
     port: portNum,
   })
-  const baseUrl = `http://0.0.0.0:${port}`
   app.listen(portNum, `0.0.0.0`).then(() => {
+    const baseUrl = `http://0.0.0.0:${port}`
     // prettier-ignore
     const welcomeMessage = dedent`
       ${chalk.green(`GraphQL Subscription Proxy`)} ${chalk.gray(`v${VERSION}`)}
