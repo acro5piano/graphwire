@@ -2,11 +2,11 @@
   "name": "graphwire",
   "version": "0.0.10",
   "main": "dist/index.js",
-  "repository": "git@github.com:acro5piano/graphql-subscription-proxy",
+  "repository": "git@github.com:acro5piano/graphwire",
   "author": "gosho-kazuya <ketsume0211@gmail.com>",
   "license": "MIT",
   "bin": {
-    "graphql-subscription-proxy": "./bin/graphql-subscription-proxy.js"
+    "graphwire": "./bin/graphql-subscription-proxy.js"
   },
   "scripts": {
     "r": "node -r esbuild-register",

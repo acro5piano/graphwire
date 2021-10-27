@@ -37,10 +37,7 @@ const Home: NextPage = () => {
               <img src="/logo.svg" alt="logo" width="32" height="32" />
             </a>
           </Link>
-          <Link
-            passHref
-            href="https://github.com/acro5piano/graphql-subscription-proxy"
-          >
+          <Link passHref href="https://github.com/acro5piano/graphwire">
             <a className="text-base leading-6 font-medium text-gray-900 transition-all py-2 hover:bg-gray-100 p-3 rounded">
               GitHub
             </a>
@@ -68,7 +65,7 @@ const Home: NextPage = () => {
           <div className="text-sm bg-gray-800 text-white px-6 py-3 rounded-br rounded-bl overflow-x-scroll hide-scrollbar font-mono whitespace-pre">
             <p className="text-white font-bold shell-cmd">
               {dedent`
-            npx graphql-subscription-proxy --upstream-url https://api.graphql.jobs
+            npx graphwire --upstream-url https://api.graphql.jobs
               `}
             </p>
             <p className="mt-3 text-gray-400">{dedent`
@@ -89,10 +86,7 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className="justify-center md:flex space-y-4 sm:space-y-0 sm:space-x-4 text-center mt-12">
-          <Link
-            passHref
-            href="https://github.com/acro5piano/graphql-subscription-proxy"
-          >
+          <Link passHref href="https://github.com/acro5piano/graphwire">
             <a className="bg-indigo-600 text-white w-full sm:w-auto flex-none text-lg leading-6 font-semibold py-3 px-6 rounded-xl">
               Get started
             </a>
