@@ -1,12 +1,12 @@
-![test](https://github.com/acro5piano/graphql-subscription-proxy/workflows/test/badge.svg)
-![release](https://github.com/acro5piano/graphql-subscription-proxy/workflows/release/badge.svg)
-[![npm version](https://badge.fury.io/js/graphql-subscription-proxy.svg)](https://badge.fury.io/js/graphql-subscription-proxy)
+![test](https://github.com/acro5piano/graphwire/workflows/test/badge.svg)
+![release](https://github.com/acro5piano/graphwire/workflows/release/badge.svg)
+[![npm version](https://badge.fury.io/js/graphwire.svg)](https://badge.fury.io/js/graphwire)
 
 <p align="center">
-    <img width="200" height="200" src="https://raw.githubusercontent.com/acro5piano/graphql-subscription-proxy/master/assets/logo.svg">
+    <img width="200" height="200" src="https://raw.githubusercontent.com/acro5piano/graphwire/master/assets/logo.svg">
 </p>
 
-# graphql-subscription-proxy
+# Graphwire
 
 A GraphQL proxy server which turns your query into real-time live query!
 
@@ -20,7 +20,7 @@ GraphQL Subscription is hard to build. It is troublesome and requires lots of wo
 - Logic duplication among queries and subscriptions
 - Initial publish for live query
 
-To solve these problems, `graphql-subscription-proxy` provides a new way: **Proxy GraphQL Queries and make it real-time subscriptions!**
+To solve these problems, `Graphwire` provides a new way: **Proxy GraphQL Queries and make it real-time subscriptions!**
 
 # How it works
 
@@ -37,7 +37,7 @@ Benefits:
 ### Step 1. Run the proxy server
 
 ```
-npx graphql-subscription-proxy --upstream-url https://api.graphql.jobs
+npx graphwire --upstream-url https://api.graphql.jobs
 ```
 
 Note that https://api.graphql.jobs does not provide Subscription. `graphql-subscription-proxy` forward subscriptions between users and the upstream server.
